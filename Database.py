@@ -1,8 +1,7 @@
 from flask_sqlalchemy import sqlAlchemy
 
 #DATABASE
-project_dir = ""
-app.config['SQLACHEMY_DATABASE_URL'] = ''
+
 db = SQLAlchemy()
 
 class Item(db.Model):
