@@ -1,12 +1,16 @@
 from flask import Flask, render_template, redirect, url_for
-from flask_sqlalchemy import sqlAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
+import json
 import os
 
-app = flask(__name__)
+app = Flask(__name__)
+db.init_app(app)
 
-config.json = ""
-app.config['SQLACHEMY_DATABASE_URL'] = ''
+with open("config.json", 'r') as f:
+	config = json.load(f)
+
+app.config['SQLACHEMY_DATABASE_URL'] = 'sqlite:///' + str(confi['project_dir']) + 'database.db'
 
 #Route
 @app.route('/')
