@@ -1,1 +1,1 @@
-DIR = "/Users/Downloads/SMS/"
+DIR = "/Users/sephella/Downloads/SMS/"
