@@ -13,7 +13,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLACHEMY_DATABASE_URI'] = 'sqlite://' + DIR + 'database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://' + DIR + 'database.db'
 
 #DATABASE
 
