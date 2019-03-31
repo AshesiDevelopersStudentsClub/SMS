@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, Response, request, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
-from flask.ext.login import LoginManager, UserMixin, login_required, login_user, logout_use
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
 from config import DIR
 
@@ -77,7 +77,7 @@ def login():
             id = username.split('user')[1]
             user = User(id)
             login_user(user)
-            return redirect(url_for('index'))
+            return render_template('index.html')
         else:
             return abort(401)
     else:
@@ -86,7 +86,9 @@ def login():
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	transactionss = Transaction.query.order_by(Transaction.completed.desc()).all()
+
+	return render_template('index.html', transactions=transactionss)
 
 @app.route('/admin')
 def admin():
@@ -95,7 +97,7 @@ def admin():
 @app.route('/addtransaction', methods = ['POST'])
 def addtransaction():
 	item_name = request.form['item_name']
-	person_transacting = request.form['price']
+	person_transacting = request.form['person_transacting']
 	quantity_requested = request.form['quantity_requested']
 	time_of_transaction = datetime.now()
 	completed = False
@@ -163,8 +165,8 @@ def item():
 
 
 @app.route('/transaction')
-def transacton():
-	return "transaction page"
+def transaction():
+	return render_template('transaction.html')
 
 if __name__ == '__main__':
 	app.run(debug = True)
