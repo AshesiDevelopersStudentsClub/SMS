@@ -13,11 +13,13 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLACHEMY_DATABASE_URI'] = 'sqlite://' + DIR + 'database.db'
-
-#DATABASE
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{}".format(os.path.join(DIR, "database.db"))
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+
+
+
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key = True)
