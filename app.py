@@ -1,16 +1,40 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
-import json
+
+
+from config import DIR
+
+
 import os
 
+
+
+
 app = Flask(__name__)
-db.init_app(app)
 
-with open("config.json", 'r') as f:
-	config = json.load(f)
+app.config['SQLACHEMY_DATABASE_URI'] = 'sqlite://' + DIR + 'database.db'
 
-app.config['SQLACHEMY_DATABASE_URL'] = 'sqlite:///' + str(confi['project_dir']) + 'database.db'
+#DATABASE
+
+db = SQLAlchemy(app)
+
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    item_name = db.Column(db.String(250))
+    quantity_left = db.Column(db.Integer)
+    revenue = db.Column(db.Float)
+    price = db.Column(db.Float)
+
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    person_transacting = db.Column(db.String(250))
+    item_name = db.Column(db.String(250))
+    quantity_requested = db.Column(db.Integer)
+    time_of_transaction = db.Column(db.String(50))
+    completed = db.Column(db.Boolean)
+
+
 
 #Route
 @app.route('/')
@@ -87,7 +111,7 @@ def updateItem():
 
 
 @app.route('/Item')
-def transacton():
+def item():
 	return "Item page"
 
 
