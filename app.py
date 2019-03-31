@@ -86,7 +86,7 @@ def login():
 
 @app.route('/')
 def index():
-	return "home page"
+	return render_template('index.html')
 
 @app.route('/admin')
 def admin():
