@@ -1,7 +1,7 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, Response, request, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
-
+from flask.ext.login import LoginManager, UserMixin, login_required, login_user, logout_use
 
 from config import DIR
 
@@ -13,14 +13,35 @@ import os
 
 app = Flask(__name__)
 
-<<<<<<< HEAD
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://' + DIR + 'database.db'
+
+# Config
+app.config.update(
+  #  DEBUG = True,
+    SECRET_KEY = 'secret_xxx'
+)
+
+
+# flask-login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+
+# silly user model
+class User(UserMixin):
+
+    def __init__(self, id):
+        self.id = id
+        self.name = "user" + str(id)
+        self.password = self.name + "_secret"
+        
+    def __repr__(self):
+        return "%d/%s/%s" % (self.id, self.name, self.password)
+
 
 #DATABASE
-=======
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{}".format(os.path.join(DIR, "database.db"))
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
->>>>>>> d3e62254942bcd5cfd153384af7adb7c03b3b569
 
 db = SQLAlchemy(app)
 
@@ -45,6 +66,24 @@ class Transaction(db.Model):
 
 
 #Route
+
+# somewhere to login
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']        
+        if password == username + "_admin":
+            id = username.split('user')[1]
+            user = User(id)
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            return abort(401)
+    else:
+        return render_template('login.html')
+
+
 @app.route('/')
 def index():
 	return "home page"
