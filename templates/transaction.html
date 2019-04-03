@@ -1,11 +1,7 @@
-
-
-
 {% extends "base.html" %}
 
         
-{% block body %}
-          
+{% block body %}         
 <form action="{{ url_for('addtransaction') }}" method="POST">
   Person transacting:<br>
   <input type="text" name="person_transacting">
@@ -14,7 +10,7 @@
   <input type="text" name="item_name">
   	<br>
     Quantity:<br>
-  <input type="text" name="quantity_requested">
+  <input type="number" name="quantity_requested" min = "0" max = "1000">
   <input type="submit">
 </form>
 
