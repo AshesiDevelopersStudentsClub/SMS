@@ -51,6 +51,11 @@ $ virtualenv .venv
 ```sh
 $ source .venv/bin/activate
 ```
+This  command only works on mac and linux. To activate your virtual environment for windows, please use the command below. To know why this is necessary, please visit this link [virtual environment][virtualenv]
+
+```sh
+$ .venv/Scripts/activate
+```
 
 ```sh
 $ pip install -r requirements.txt
@@ -76,4 +81,5 @@ Your shop management system is ready to go :wink: :collision: :fire: :fire: :fir
 * Joshua Quartey
 
 [repository]: <https://github.com/AshesiDevelopersStudentsClub/SMS.git>
+[virtualenv]: <https://docs.python-guide.org/dev/virtualenvs/>
 
