@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+
+<div class="container">
+  <div class="card card-login mx-auto mt-5">
+    <form style="width: 70%; margin: auto; margin-top: 7%; margin-bottom: 7%" class="form-group" action="{{ url_for('addtransaction') }}" method="POST">
+      Person transacting:<br>
+      <input required class="form-control" type="text" name="person_transacting">
+      <br>
+      Item:<br>
+      <input required class="form-control" type="text" name="item_name">
+      <br>
+      Quantity:<br>
+      <input required class="form-control" type="number" name="quantity_requested" min="0" max="1000">
+      <br><br>
+      <input class="form-control" type="submit">
+    </form>
+  </div>
+</div>
+
+{% endblock %}
