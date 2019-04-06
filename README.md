@@ -43,6 +43,25 @@ In the preorder request, if the owner is done restocking, he/she can decide to s
 | Deployment | Deployment |
 | ***Showcase and presentation to the businesses*** | ***Showcase and presentation to the businesses*** |
  
+# To run this project locally
+```sh
+$ virtualenv .venv
+```
+
+```sh
+$ source .venv/bin/activate
+```
+
+```sh
+$ pip install -r requirements.txt
+```
+
+```sh
+$ python app.py
+```
+
+Your shop management system is ready to go :wink: :collision: :fire: :fire: :fire:
+
 ## Conclusion
 > This project has been made simple. After we’re done with these features, we can add extra features to it. 
 > If you think I have left out some core features, please let me know by 
