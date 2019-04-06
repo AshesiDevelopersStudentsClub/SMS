@@ -2,9 +2,8 @@ from flask import Flask, render_template, redirect, url_for, Response, request, 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 
+# we dont really need this anymore. If changes are approved, we can take it away. os.getcwd() on line 15 takes care of it
 from config import DIR
-
-
 import os
 
 
@@ -13,7 +12,7 @@ import os
 app = Flask(__name__)
 
 
-
+DIR = os.getcwd()
 
 #DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{}".format(os.path.join(DIR, "database.db"))
