@@ -116,14 +116,14 @@ def addItem():
 
 @app.route('/updateItem', methods = ['POST'])
 def updateItem():
-	id = request.form['id']
+	#id = request.form['id']
 
 	item_name = request.form['item_name']
 	quantity_left = request.form['quantity_left']
 	revenue = request.form['revenue']
 	price = request.form['price']
 
-	item = Item.query.filter_by(id=id).first()
+	item = Item.query.filter_by(item_name=item_name).first()
 
 	item.item_name = item_name
 	item.quantity_left = quantity_left
@@ -133,10 +133,15 @@ def updateItem():
 
 	db.session.commit()
 
+	return redirect(url_for("index"))
 
+@app.route('/restock')
+def restock():
+	return render_template("restock.html")
+	
 @app.route('/Item')
 def item():
-	return "Item page"
+	return render_template("item.html")
 
 
 @app.route('/transaction')
