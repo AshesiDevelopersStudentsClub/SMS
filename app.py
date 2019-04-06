@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, Response, request, session, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
 from config import DIR
 
@@ -14,29 +13,6 @@ import os
 app = Flask(__name__)
 
 
-# Config
-app.config.update(
-  #  DEBUG = True,
-    SECRET_KEY = 'secret_xxx'
-)
-
-
-# flask-login
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
-
-
-# silly user model
-class User(UserMixin):
-
-    def __init__(self, id):
-        self.id = id
-        self.name = "user" + str(id)
-        self.password = self.name + "_secret"
-        
-    def __repr__(self):
-        return "%d/%s/%s" % (self.id, self.name, self.password)
 
 
 #DATABASE
