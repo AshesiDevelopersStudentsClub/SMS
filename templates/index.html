@@ -1,5 +1,5 @@
 
-{% extends "base.html" %}
+{% extends "bases.html" %}
 
         
 {% block body %}
@@ -13,7 +13,7 @@
                 <div class="card-body-icon">
                   <i class="fas fa-fw fa-comments"></i>
                 </div>
-                <div class="mr-5">Number of items sold -<b>50</b></div>
+                <div class="mr-5">Number of items sold: <b>50</b></div>
               </div>
               <a class="card-footer text-white clearfix small z-1" href="#">
                 <!--<span class="float-left">View Details</span>
@@ -71,23 +71,7 @@
               </a>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-life-ring"></i>
-                </div>
-                <div class="mr-5">Total number of transactions - <b>14</b></div>
-              </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-               <!-- <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span> -->
-              </a>
-            </div>
           </div>
-        </div>
 
 
 
@@ -107,6 +91,7 @@
                     <th>Quantity Requested</th>
                     <th>Time of transaction</th>
                     <th>Completed</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -116,6 +101,7 @@
                     <th>Quantity Requested</th>
                     <th>Time of transaction</th>
                     <th>Completed</th>
+                    <th></th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -126,7 +112,18 @@
                     <td> {{transaction.item_name}} </td>
                     <td> {{transaction.quantity_requested}} </td>
                     <td> {{transaction.time_of_transaction}} </td>
-                    <td> {{transaction.completed}} </td>
+                    <td>
+                       {{transaction.completed}} 
+                    </td>
+                    <td>
+                       {% if not transaction.completed %}
+                        <form action="{{ url_for('completeTransaction') }}" method="POST">
+                          <input hidden name="id" value="{{ transaction.id }}" >
+                          <input class="form-control" type="submit" value="complete">
+                        </form>
+                       {% endif %}
+                    
+                    </td>
                   </tr>
                   {% endfor %}
 

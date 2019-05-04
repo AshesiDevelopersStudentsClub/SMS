@@ -2,6 +2,9 @@ from flask import Flask, render_template, redirect, url_for, Response, request, 
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
 
+from flask_simplelogin import SimpleLogin, login_required
+
+
 from config import DIR
 
 
@@ -19,8 +22,13 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{}".format(os.path.join(DIR, "database.db"))
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+app.config['SECRET_KEY'] = 'something-secret'
+app.config['SIMPLELOGIN_USERNAME'] = 'test'
+app.config['SIMPLELOGIN_PASSWORD'] = 'test'
+
 db = SQLAlchemy(app)
 
+SimpleLogin(app)
 
 
 
@@ -43,34 +51,21 @@ class Transaction(db.Model):
 
 #Route
 
-# somewhere to login
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']        
-        if password == username + "_admin":
-            id = username.split('user')[1]
-            user = User(id)
-            login_user(user)
-            return render_template('index.html')
-        else:
-            return abort(401)
-    else:
-        return render_template('login.html')
-
 
 @app.route('/')
+@login_required
 def index():
 	transactionss = Transaction.query.order_by(Transaction.completed.desc()).all()
 
 	return render_template('index.html', transactions=transactionss)
 
 @app.route('/admin')
+@login_required
 def admin():
 	return  "admin page"
 
 @app.route('/addtransaction', methods = ['POST'])
+@login_required
 def addtransaction():
 	item_name = request.form['item_name']
 	person_transacting = request.form['person_transacting']
@@ -85,7 +80,21 @@ def addtransaction():
 
 	return redirect(url_for('transaction'))
 
+@app.route('/completeTransaction', methods = ['POST'])
+@login_required
+def completeTransaction():
+	id = request.form['id']
+
+	transact = Transaction.query.filter_by(id=id).first()
+
+	transact.completed = True
+
+	db.session.commit()
+
+	return redirect(url_for("index"))
+
 @app.route('/updateTransact', methods = ['POST'])
+@login_required
 def updateTransact():
 	id = request.form['id']
 
@@ -102,6 +111,7 @@ def updateTransact():
 	
 
 @app.route('/addItem', methods = ['POST'])
+@login_required
 def addItem():
 	item_name = request.form['item_name']
 	quantity_left = request.form['quantity_left']
@@ -116,6 +126,7 @@ def addItem():
 	return redirect(url_for('Item'))
 
 @app.route('/updateItem', methods = ['POST'])
+@login_required
 def updateItem():
 	id = request.form['id']
 
@@ -134,15 +145,25 @@ def updateItem():
 
 	db.session.commit()
 
+	
 
 @app.route('/Item')
+@login_required
 def item():
 	return "Item page"
 
 
 @app.route('/transaction')
+@login_required
 def transaction():
 	return render_template('transaction.html')
+
+
+@app.route('/restock')
+@login_required
+def restock():
+	return render_template('restock.html')
+
 
 if __name__ == '__main__':
 	app.run(debug = True)
