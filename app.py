@@ -145,9 +145,6 @@ def updateItem():
 
 	return redirect(url_for("index"))
 
-@app.route('/restock')
-def restock():
-	return render_template("restock.html")
 	
 @app.route('/Item')
 @login_required
