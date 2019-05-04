@@ -1,1 +1,1 @@
-DIR = "C:/Users/jean72human/drive/Documents/developer student club/SMS"
+DIR = "C:/Users/ADMIN PC/OneDrive - Ashesi University/Desktop/DSC Project/SMS"

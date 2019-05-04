@@ -6,8 +6,6 @@ from flask_simplelogin import SimpleLogin, login_required
 
 
 from config import DIR
-
-
 import os
 
 
@@ -16,7 +14,7 @@ import os
 app = Flask(__name__)
 
 
-
+DIR = os.getcwd()
 
 #DATABASE
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///{}".format(os.path.join(DIR, "database.db"))
@@ -128,14 +126,14 @@ def addItem():
 @app.route('/updateItem', methods = ['POST'])
 @login_required
 def updateItem():
-	id = request.form['id']
+	#id = request.form['id']
 
 	item_name = request.form['item_name']
 	quantity_left = request.form['quantity_left']
 	revenue = request.form['revenue']
 	price = request.form['price']
 
-	item = Item.query.filter_by(id=id).first()
+	item = Item.query.filter_by(item_name=item_name).first()
 
 	item.item_name = item_name
 	item.quantity_left = quantity_left
@@ -145,12 +143,16 @@ def updateItem():
 
 	db.session.commit()
 
-	
+	return redirect(url_for("index"))
 
+@app.route('/restock')
+def restock():
+	return render_template("restock.html")
+	
 @app.route('/Item')
 @login_required
 def item():
-	return "Item page"
+	return render_template("item.html")
 
 
 @app.route('/transaction')
